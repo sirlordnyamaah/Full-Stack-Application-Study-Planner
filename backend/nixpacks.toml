@@ -7,3 +7,6 @@ cmds = ["npm install"]
 [start]
 cmd = "node src/server.js"
 
+[staticAssets]
+paths = ["public"]
+
