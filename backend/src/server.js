@@ -8,8 +8,20 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+// Allow CORS from frontend URL or any origin in development
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? [process.env.FRONTEND_URL]
+  : ['http://localhost:3000'];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all origins for now - tighten in production
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
